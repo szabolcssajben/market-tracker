@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "golang.go",
+        "dunstontc.vscode-go-syntax",
+        "premparihar.gotestexplorer",
+        "editorconfig.editorconfig"
+    ]
+}
