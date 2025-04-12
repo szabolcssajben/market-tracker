@@ -51,3 +51,6 @@
   - API integration layer
 - Tests are run with `npm run test` (Vitest) and `npx playwright test` (E2E).
 
+###  Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) before opening issues or pull requests.
