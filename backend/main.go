@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	"github.com/szabolcssajben/market-tracker/internal/api"
 	"github.com/szabolcssajben/market-tracker/internal/db"
@@ -31,6 +32,14 @@ func main() {
 
 	// Set up the router
 	r := chi.NewRouter()
+
+	// Allow CORS for dev
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		AllowCredentials: true,
+	}))
 
 	// Routes
 	r.Get("/health", api.HealthHandler)

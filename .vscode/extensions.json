@@ -3,6 +3,7 @@
         "golang.go",
         "dunstontc.vscode-go-syntax",
         "premparihar.gotestexplorer",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "bradlc.vscode-tailwindcss"
     ]
 }
