@@ -30,9 +30,10 @@ func connectTestDB(t *testing.T) *pgx.Conn {
 func TestInsertMarketData(t *testing.T) {
 	conn := connectTestDB(t)
 	defer conn.Close(context.Background())
+	table := os.Getenv("TEST_TABLE_NAME")
 
 	data := MarketData{
-		IndexName:  "DAX",
+		IndexName:  "^TEST",
 		Region:     "EU",
 		Currency:   "EUR",
 		Timestamp:  time.Now().UTC(),
@@ -43,6 +44,6 @@ func TestInsertMarketData(t *testing.T) {
 		Volume:     1000000,
 	}
 
-	err := InsertMarketData(conn, data)
+	err := InsertMarketData(conn, data, table)
 	assert.NoError(t, err)
 }

@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -19,11 +20,17 @@ type MarketData struct {
 	Volume     int64
 }
 
-func InsertMarketData(conn *pgx.Conn, data MarketData) error {
+func InsertMarketData(conn *pgx.Conn, data MarketData, tb string) error {
+	table := tb
+	if table == "" {
+		table = "market_data"
+	}
+
 	_, err := conn.Exec(
 		context.Background(),
-		`INSERT INTO market_data (index_name, region, currency, timestamp, open_price, close_price, high, low, volume)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+		fmt.Sprintf(
+			`INSERT INTO %s (index_name, region, currency, timestamp, open_price, close_price, high, low, volume)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, table),
 		data.IndexName,
 		data.Region,
 		data.Currency,
