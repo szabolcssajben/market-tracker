@@ -12,7 +12,7 @@ jobs:
   test:
     name: Run Go Tests
     runs-on: ubuntu-latest
-    enviroment: dev
+    environment: dev
 
     steps:
     - name: Checkout code
@@ -28,5 +28,6 @@ jobs:
         echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
     - name: Run tests
+      # Specify the working directory for running tests
       working-directory: backend
       run: go test ./...
