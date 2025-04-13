@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +14,13 @@ import (
 )
 
 func TestGetLatestMarket(t *testing.T) {
+	// Load environment variables from .env file
 	testutils.LoadEnv(t)
+	url := os.Getenv("DATABASE_URL")
+	if url == "" {
+		t.Fatal("Missing DATABASE_URL environment variable")
+	}
+
 	conn, err := db.ConnectDB()
 	assert.NoError(t, err)
 	defer conn.Close(context.Background())

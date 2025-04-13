@@ -12,11 +12,13 @@ import (
 )
 
 func connectTestDB(t *testing.T) *pgx.Conn {
+	// Load environment variables from .env file
 	testutils.LoadEnv(t)
 	url := os.Getenv("DATABASE_URL")
 	if url == "" {
 		t.Fatal("Missing DATABASE_URL environment variable")
 	}
+
 	conn, err := pgx.Connect(context.Background(), url)
 	if err != nil {
 		t.Fatal("Failed to connect to test DB:", err)
