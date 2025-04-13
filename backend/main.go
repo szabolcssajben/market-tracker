@@ -1,14 +1,12 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 	"github.com/szabolcssajben/market-tracker/internal/api"
-	"github.com/szabolcssajben/market-tracker/internal/db"
 )
 
 func main() {
@@ -30,14 +28,31 @@ func main() {
 	}()
 
 	// Supabase connection test
-	conn, err := db.ConnectDB()
-	if err != nil {
-		log.Fatalf("DB connection error: %v", err)
-	}
-	defer conn.Close(context.Background())
+	// conn, err := db.ConnectDB()
+	// if err != nil {
+	// 	log.Fatalf("DB connection error: %v", err)
+	// }
+	// defer conn.Close(context.Background())
 
-	if err := db.PingDB(conn); err != nil {
-		log.Fatalf("DB ping error: %v", err)
-	}
-	log.Println("DB connection successful!")
+	// if err := db.PingDB(conn); err != nil {
+	// 	log.Fatalf("DB ping error: %v", err)
+	// }
+	// log.Println("DB connection successful!")
+
+	// Test insert into db
+	// err = db.InsertMarketData(conn, db.MarketData{
+	// 	IndexName:  "S&P 500",
+	// 	Region:     "US",
+	// 	Currency:   "USD",
+	// 	Timestamp:  time.Now().UTC(),
+	// 	OpenPrice:  5000.00,
+	// 	ClosePrice: 5050.00,
+	// 	High:       5100.00,
+	// 	Low:        4950.00,
+	// 	Volume:     120000000,
+	// })
+	// if err != nil {
+	// 	log.Fatalf("DB insert failed: %v", err)
+	// }
+	// log.Println("Mock market data inserted")
 }
