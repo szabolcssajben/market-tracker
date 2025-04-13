@@ -9,27 +9,29 @@ import (
 
 // Raw test data
 const sampleFMPResponse = `
-{
-  "symbol": "^GSPC",
-  "historical": [
-    {
-      "date": "2025-04-10",
-      "open": 5100.00,
-      "high": 5150.00,
-      "low": 5080.00,
-      "close": 5125.00,
-      "volume": 45000000
-    },
-    {
-      "date": "2025-04-09",
-      "open": 5050.00,
-      "high": 5100.00,
-      "low": 5020.00,
-      "close": 5085.00,
-      "volume": 47000000
-    }
-  ]
-}`
+[
+  {
+    "symbol": "^GSPC",
+    "date": "2025-04-10",
+    "open": 5100,
+    "high": 5150,
+    "low": 5080,
+    "close": 5125,
+    "volume": 123456
+  },
+  {
+    "symbol": "^GSPC",
+    "date": "2025-04-10",
+    "open": 32321.21,
+    "high": 34639.39,
+    "low": 32320.66,
+    "close": 34609,
+    "volume": 201600000,
+    "change": 2287.79,
+    "changePercent": 7.08,
+    "vwap": 33472.565
+  },
+]`
 
 // Test parsing the FMP response
 func TestParseFMPHistoricData(t *testing.T) {

@@ -45,6 +45,14 @@ func main() {
 	r.Get("/health", api.HealthHandler)
 	r.Get("/api/markets/latest", api.GetLatestMarketsHandler(conn))
 
+	// Test historic data fetch
+	// result, err := fetcher.FetchHistoricalData("^GSPC", time.Date(2025, 1, 20, 0, 0, 0, 0, time.UTC), time.Now().UTC())
+	// if err != nil {
+	// 	log.Printf("Fetch error: %v", err)
+	// } else {
+	// 	log.Printf("Fetched %d entries", len(result))
+	// }
+
 	// Start the server
 	log.Println("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
