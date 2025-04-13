@@ -47,3 +47,48 @@ func TestInsertMarketData(t *testing.T) {
 	err := InsertMarketData(conn, data, table)
 	assert.NoError(t, err)
 }
+
+func TestInsertMarketDataBatch(t *testing.T) {
+	conn := connectTestDB(t)
+	defer conn.Close(context.Background())
+	table := os.Getenv("TEST_TABLE_NAME")
+
+	// Clean slate
+	_, err := conn.Exec(context.Background(), "TRUNCATE "+table)
+	assert.NoError(t, err)
+
+	now := time.Now().UTC().Truncate(time.Second)
+
+	mockData := []MarketData{
+		{
+			IndexName:  "^BATCH",
+			Region:     "TEST",
+			Currency:   "USD",
+			Timestamp:  now,
+			OpenPrice:  100,
+			ClosePrice: 110,
+			High:       115,
+			Low:        95,
+			Volume:     123456,
+		},
+		{
+			IndexName:  "^BATCH",
+			Region:     "TEST",
+			Currency:   "USD",
+			Timestamp:  now.Add(-24 * time.Hour),
+			OpenPrice:  98,
+			ClosePrice: 108,
+			High:       112,
+			Low:        94,
+			Volume:     123000,
+		},
+	}
+
+	err = InsertMarketDataBatch(conn, mockData, table, false)
+	assert.NoError(t, err)
+
+	var count int
+	err = conn.QueryRow(context.Background(), "SELECT COUNT(*) FROM "+table+" WHERE index_name = '^BATCH'").Scan(&count)
+	assert.NoError(t, err)
+	assert.Equal(t, 2, count)
+}
