@@ -3,6 +3,8 @@ package db
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -42,4 +44,31 @@ func InsertMarketData(conn *pgx.Conn, data MarketData, tb string) error {
 		data.Volume,
 	)
 	return err
+}
+
+func InsertMarketDataBatch(conn *pgx.Conn, batch []MarketData, tb string, dryRun bool) error {
+	table := tb
+	if table == "" {
+		table = os.Getenv("TEST_TABLE_NAME")
+	}
+	if table == "" {
+		table = "market_test_data"
+	}
+
+	if dryRun {
+		log.Printf("[DRY RUN] Would insert %d records into %s", len(batch), table)
+		for _, d := range batch {
+			log.Printf("[DRY] %s @ %s → %.2f %s", d.IndexName, d.Timestamp.Format("2006-01-02"), d.ClosePrice, d.Currency)
+		}
+		return nil
+	}
+
+	for _, d := range batch {
+		err := InsertMarketData(conn, d, table)
+		if err != nil {
+			log.Printf("[ERROR] Failed to insert row: %v", err)
+			return err
+		}
+	}
+	return nil
 }
