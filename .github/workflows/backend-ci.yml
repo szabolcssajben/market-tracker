@@ -26,6 +26,7 @@ jobs:
     - name: Load env variables
       run: |
         echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+        echo "TEST_TABLE_NAME=${{ secrets.TEST_TABLE_NAME }}" >> $GITHUB_ENV
 
     - name: Run tests
       # Specify the working directory for running tests
