@@ -52,7 +52,7 @@ func InsertMarketDataBatch(conn *pgx.Conn, batch []MarketData, tb string, dryRun
 		table = os.Getenv("TEST_TABLE_NAME")
 	}
 	if table == "" {
-		table = "market_test_data"
+		table = "market_data_test"
 	}
 
 	if dryRun {
